@@ -1,14 +1,23 @@
 import numpy as np
 from typing import List, Tuple
+import random
 
 class Grid:
     """Grid class for simulating an m x n meter environment."""
 
-    def __init__(self, m: int, n: int, biomass=0) -> None:
-        """Create a Grid with m rows and n columns made from Numpy arrays."""
+    def __init__(self, m: int, n: int, original_biomass=0, sensitivity=0) -> None:
+        """Create a Grid with m rows and n columns made from Numpy arrays.
+            Each cell is [original_biomass, current biomass]"""
         self.num_rows = m
         self.num_cols = n 
-        self.map_grid = np.zeros(shape=(m, n)) + biomass
+        self.map_grid = np.empty(shape=(m, n), dtype=object)
+        # Fill array with tuples
+        for r in range(m):
+            for c in range(n):
+                random_start_biomass = random.uniform(original_biomass - sensitivity, 
+                                                        original_biomass + sensitivity)
+                self.map_grid[r][c] = [random_start_biomass, random_start_biomass]
+                
     
     def __str__(self) -> str:
         """Returns a pretty string representing the Grid's values."""
@@ -26,16 +35,24 @@ class Grid:
 
 
     # GETTER METHODS
-    def get_value_at_x_y(self, x: int, y: int) -> float:
+    def get_original_biomass_at_location(self, location: tuple) -> float:
+        """Returns the original biomass at location (x, y)."""
+        return self.get_value_tuple(location)[0]
+
+    def get_current_biomass_at_location(self, location: tuple) -> float:
+        """Returns the current biomass at location (x, y)."""
+        return self.get_value_tuple(location)[1]
+
+    def get_value_tuple_at_x_y(self, x: int, y: int) -> tuple:
         """Returns the value in the Grid at the given x and y location."""
         if self.__is_valid_row(x) and self.__is_valid_col(y):
             return self.map_grid[x][y]
         
-    def get_value(self, location: tuple) -> float:
+    def get_value_tuple(self, location: tuple) -> tuple:
         """Returns the value in the Grid at location (x, y)."""
-        return self.get_value_at_x_y(location[0], location[1])
+        return self.get_value_tuple_at_x_y(location[0], location[1])
 
-    def get_grid_size(self) -> tuple:
+    def grid_size(self) -> tuple:
         """Returns a (x, y) tuple where x is the number of rows 
             and y is the number of columns of the Grid."""
         return (self.num_rows, self.num_cols)
@@ -60,25 +77,36 @@ class Grid:
 
 
     # SETTER METHODS
-    def set_value_at_x_y(self, x: int, y: int, val: float):
+    def set_value_tuple_at_x_y(self, x: int, y: int, val: tuple):
         """Sets the value at location (x, y) in the Grid to val."""
         if self.__is_valid_row(x) and self.__is_valid_col(y):
             self.map_grid[x][y] = val
 
-    def set_value(self, location: tuple, val: float):
+    def set_value_tuple(self, location: tuple, val: tuple):
         """Sets the value at location (x, y) in the Grid to val."""
-        self.set_value_at_x_y(location[0], location[1], val)
+        self.set_value_tuple_at_x_y(location[0], location[1], val)
+
+    def set_current_biomass(self, location: tuple, val: float):
+        """Sets the current biomass at (x, y) location to val."""
+        original_biomass, current_biomass = self.get_value_tuple(location)
+        self.set_value_tuple(location, (original_biomass, val))
 
     # ADDING METHODS
     def add_value_at_location(self, location: tuple, val: float):
-        """Adds val to the number at (x, y) location."""
-        self.set_value(location, val + self.get_value(location))
+        """Adds val to the current_biomass at (x, y) location."""
+        self.set_current_biomass(location, 
+                                val + self.get_current_biomass_at_location(location))
 
     def add_value_everywhere(self, val: float):
         """Adds val to every location in the Grid."""
-        self.map_grid += val
+        for r in range(self.num_rows):
+            for c in range(self.num_cols):
+                self.map_grid[r][c] = [self.map_grid[r][c][0], 
+                                        self.map_grid[r][c][1] + val]
+
 
     # REDUCING METHODS
     def reduce_value_at_location(self, location: tuple, val: float):
         """Reduces the number at (x, y) location by val."""
-        self.set_value(location, self.get_value(location) - val)
+        self.set_current_biomass(location, 
+                                self.get_current_biomass_at_location(location) - val)
