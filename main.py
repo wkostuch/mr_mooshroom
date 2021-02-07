@@ -28,23 +28,25 @@ FUNGUS_NAMES = ["Phellinus robiniae",
                     "Fomes fomentarius",
                     "Xylobolus subpileatus"]
 COLLECTION_INTERVAL = 10
+YEARS = 2
 
 def biomass_over_time(climates: List[str], fungi: List[str], 
-                        trials: int, time_limit: int, data_interval: int):
+                        trials: int, time_limit: int):
     """Shows a graph of average biomass over time for each climate after running the trials."""
+    array_length = time_limit 
     for climate in climates:
         # Arrays for graphing
-        average_times = np.zeros(time_limit)
-        average_biomass = np.zeros(time_limit)
+        average_times = np.zeros(array_length)
+        average_biomass = np.zeros(array_length)
         for n in range(trials):
             # Arrays for holding the values
-            times = np.zeros(time_limit)
-            biomasses = np.zeros(time_limit)
+            times = np.zeros(array_length)
+            biomasses = np.zeros(array_length)
             # Make a World and run it for a time
             world = World(climate, (100,100), fungi)
             # Loop through stuff
             for i in range(time_limit):
-                time = world.get_time()
+                time = world.get_time() 
                 times[time] = time
                 biomasses[time] = world.get_environment().get_grid().average_biomass()
                 world.increment_time()
@@ -54,7 +56,9 @@ def biomass_over_time(climates: List[str], fungi: List[str],
         # Average and plot
         average_times /= trials
         average_biomass /= trials
-        plt.plot(average_times, average_biomass, label=climate)
+        plt.plot(average_times, 
+                average_biomass, 
+                label=climate)
     plt.title("Biomass vs. Time for different climates")
     plt.legend()
     plt.xlabel("Time (days)")
@@ -62,21 +66,22 @@ def biomass_over_time(climates: List[str], fungi: List[str],
     plt.show()
 
 def temperature_over_time(climates: List[str], fungi: List[str], 
-                        trials: int, time_limit: int, data_interval: int):
+                        trials: int, time_limit: int):
     """Shows a graph of average temperature over time for each climate after running the trials."""
+    array_length = time_limit 
     for climate in climates:
         # Arrays for graphing
-        average_times = np.zeros(time_limit)
-        average_temps = np.zeros(time_limit)
+        average_times = np.zeros(array_length)
+        average_temps = np.zeros(array_length)
         for n in range(trials):
             # Arrays for holding the values
-            times = np.zeros(time_limit)
-            temps = np.zeros(time_limit)
+            times = np.zeros(array_length)
+            temps = np.zeros(array_length)
             # Make a World and run it for a time
             world = World(climate, (100,100), fungi)
             # Loop through stuff
             for i in range(time_limit):
-                time = world.get_time()
+                time = world.get_time() 
                 times[time] = time
                 temps[time] = world.get_environment().get_climate().get_climate_temperature()
                 world.increment_time()
@@ -86,7 +91,9 @@ def temperature_over_time(climates: List[str], fungi: List[str],
         # Average and plot
         average_times /= trials
         average_temps /= trials
-        plt.plot(average_times, average_temps, label=climate)
+        plt.plot(average_times, 
+                average_temps, 
+                label=climate)
     plt.title("Temperature vs. Time for different climates")
     plt.legend()
     plt.xlabel("Time (days)")
@@ -97,8 +104,10 @@ def temperature_over_time(climates: List[str], fungi: List[str],
 
 if __name__ == "__main__":
     worlds = []
-    temperature_over_time(CLIMATE_NAMES, [], 5, time_limit=365, data_interval=10)
-    #biomass_over_time(CLIMATE_NAMES, [], 5, time_limit=50, data_interval=10)
+    temperature_over_time(["Rainforest", "Tundra"], [], 
+                        trials=1, time_limit=365*YEARS)
+    biomass_over_time(["Rainforest", "Tundra"], [], 
+                        trials=1, time_limit=365*YEARS)
 
 
         
