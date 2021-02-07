@@ -1,6 +1,6 @@
 from typing import List, Tuple
 from grid import Grid
-from fungus import Fungus 
+from fungus import Fungus, Fungus1, Fungus10, Fungus11, Fungus12, Fungus13, Fungus14, Fungus2, Fungus3, Fungus4, Fungus5, Fungus6, Fungus7, Fungus8, Fungus9 
 from climate import Climate, Desert, Tundra, Shrubland, Grassland, \
     TemperateDeciduousForest, ConiferousForest, Rainforest
 
@@ -17,7 +17,20 @@ class Environment:
                     "ConiferousForest": ConiferousForest(),
                     "Rainforest": Rainforest()}
     # Dictionary for mapping strings to Fungus objects
-    fungus_map = {}
+    fungus_map = {"Phellinus robiniae"          : Fungus1,
+                    "Phellinus hartigii"        : Fungus2,
+                    "Phellinus gilvus"          : Fungus3,
+                    "Armillaria tabescens"      : Fungus4,
+                    "Porodisculus pendulus"     : Fungus5,
+                    "Schizophyllum commune"     : Fungus6,
+                    "Hyphodontia crustosa"      : Fungus7,
+                    "Phlebia rufa"              : Fungus8,
+                    "Hyphoderma setigerum"      : Fungus9,
+                    "Laetiporus conifericola"   : Fungus10,
+                    "Tyromyces chioneus"        : Fungus11,
+                    "Lentinus crinitus"         : Fungus12,
+                    "Fomes fomentarius"         : Fungus13,
+                    "Xylobolus subpileatus"     : Fungus14}
 
     def __init__(self, 
                 climate_type: str,

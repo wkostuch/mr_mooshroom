@@ -5,7 +5,7 @@ from grid import Grid
 from climate import Climate
 
 class Fungus:
-    """Fungus class for simulating a particular species of Fugnus and its lifecycle"""
+    """Fungus class for simulating a particular species of Fungus and its lifecycle"""
     
     def __init__(self, 
     initial_locations: list,
@@ -14,7 +14,7 @@ class Fungus:
     functioning_temperatures: tuple,
     functioning_moistures: tuple,
     hyphal_growth_rate: float,
-    hyphal_density: float ) -> None:
+    hyphal_density: float) -> None:
 
         self.name = name
         self.decay_regression_constants = decay_regression_constants
@@ -59,7 +59,7 @@ class Fungus:
         """Returns a weighted multiplier based on the moisture"""
         optimal_moisture,_,_= self.functioning_moistures
 
-        return ((moisture - abs(optimal_moisture - moisture)) / optimal_moisture)
+        return abs((moisture - abs(optimal_moisture - moisture)) / optimal_moisture)
 
     def __probability_of_expansion(self) -> bool:
         """Determines whether the fungus actually expands"""
