@@ -100,13 +100,13 @@ class Fungus:
 
         #unpack the maximum and minimum values of the temperatures
         _, max_fungus_temperature, min_fungus_temperature = self.functioning_temperatures
-        _, max_fungus_moisture, min_fungus_moisture = self.functioning_moistures
+        optimal_moisture, moisture_width = self.functioning_moistures
 
         #A series of booleans to determine if climate death occurs
         max_temp_exceeded = temperature > (max_fungus_temperature + (utilities.TEMPERATURE_THRESHOLD_MULTIPLIER * max_fungus_temperature))
         min_temp_below = temperature < (min_fungus_temperature - (utilities.TEMPERATURE_THRESHOLD_MULTIPLIER * min_fungus_temperature))
-        max_moisture_exceeded = moisture > (max_fungus_moisture + (utilities.MOISTURE_THRESHOLD_MULTIPLIER * max_fungus_moisture))
-        min_moisture_below =  moisture < (min_fungus_moisture - (utilities.MOISTURE_THRESHOLD_MULTIPLIER * min_fungus_moisture))
+        max_moisture_exceeded = moisture > (optimal_moisture + (utilities.MOISTURE_THRESHOLD_MULTIPLIER * moisture_width))
+        min_moisture_below =  moisture < (optimal_moisture - (utilities.MOISTURE_THRESHOLD_MULTIPLIER * moisture_width))
 
         return max_temp_exceeded or min_temp_below or max_moisture_exceeded or min_moisture_below
         
@@ -157,7 +157,7 @@ class Fungus1(Fungus):
                 name = "Phellinus robiniae", 
                 decay_regression_constants = (-0.16844262333333337, 0.016441256833333334), 
                 functioning_temperatures = (29.45,32.3,20.25), 
-                functioning_moistures = (-0.625,1.815,0.31), 
+                functioning_moistures = (-0.625, 1.505), 
                 hyphal_growth_rate = 2.22, 
                 hyphal_density = 0.095) -> None:
         super().__init__(initial_locations, 
@@ -173,7 +173,7 @@ class Fungus2(Fungus):
                 name = "Phellinus hartigii", 
                 decay_regression_constants = (-0.0759836070000001, 0.01030737708333334), 
                 functioning_temperatures = (19.1,28.2,9.6), 
-                functioning_moistures = (-0.65,1.99,0.42), 
+                functioning_moistures = (-0.65,1.57), 
                 hyphal_growth_rate = 1.54, 
                 hyphal_density = 1.8) -> None:
         super().__init__(initial_locations, 
@@ -189,7 +189,7 @@ class Fungus3(Fungus):
                 name = "Phellinus gilvus", 
                 decay_regression_constants = (-0.22144808700000043, 0.025232240416666694), 
                 functioning_temperatures = (31.5,35.3,16.7), 
-                functioning_moistures = (-0.06,1.71,0.31), 
+                functioning_moistures = (-0.06,1.4), 
                 hyphal_growth_rate = 4.04, 
                 hyphal_density = 0.03) -> None:
         super().__init__(initial_locations, 
@@ -205,7 +205,7 @@ class Fungus4(Fungus):
                 name = "Armillaria tabescens", 
                 decay_regression_constants = (-0.06484426300000005, 0.0067759563333333345), 
                 functioning_temperatures = (26.15,32.7,15.7), 
-                functioning_moistures = (-0.445,2.54,0.165), 
+                functioning_moistures = (-0.445,2.375), 
                 hyphal_growth_rate = 0.785, 
                 hyphal_density = 0.35) -> None:
         super().__init__(initial_locations, 
@@ -221,7 +221,7 @@ class Fungus5(Fungus):
                 name = "Porodisculus pendulus", 
                 decay_regression_constants = (0.006557377666666621, 0.001195355166666671), 
                 functioning_temperatures = (26.4, 31.7, 16.7), 
-                functioning_moistures = (-0.64, 0.34, 1.58), 
+                functioning_moistures = (-0.64, 1.24), 
                 hyphal_growth_rate = 4.06, 
                 hyphal_density = 0.32) -> None:
         super().__init__(initial_locations, 
@@ -237,7 +237,7 @@ class Fungus6(Fungus):
                 name = "Schizophyllum commune", 
                 decay_regression_constants = (-0.04494535400000012, 0.0059904370833333345), 
                 functioning_temperatures = (32.55, 36.4, 19.75), 
-                functioning_moistures = (-0.775, 2.705, 0.445), 
+                functioning_moistures = (-0.775, 2.26), 
                 hyphal_growth_rate = 1.785, 
                 hyphal_density = 0.56) -> None:
         super().__init__(initial_locations, 
@@ -253,7 +253,7 @@ class Fungus7(Fungus):
                 name = "Hyphodontia crustosa", 
                 decay_regression_constants = (-0.016475410333333527, 0.006372950833333347), 
                 functioning_temperatures = (23.2,25.6, 30.3,7.1), 
-                functioning_moistures = (-0.23, 1.28, 0.09), 
+                functioning_moistures = (-0.23, 1.19), 
                 hyphal_growth_rate = 1.96, 
                 hyphal_density = 0.12) -> None:
         super().__init__(initial_locations, 
@@ -269,7 +269,7 @@ class Fungus8(Fungus):
                 name = "Phlebia rufa", 
                 decay_regression_constants = (0.09685792299999989, 0.0029371584999999976), 
                 functioning_temperatures = (27.15, 30.85, 12.7), 
-                functioning_moistures = (-0.475, 1.455, 0.22), 
+                functioning_moistures = (-0.475, 1.235), 
                 hyphal_growth_rate = 8.63, 
                 hyphal_density = 0.205) -> None:
         super().__init__(initial_locations, 
@@ -285,7 +285,7 @@ class Fungus9(Fungus):
                 name = "Hyphoderma setigerum", 
                 decay_regression_constants = (-0.10240437133333334, 0.011031420750000007), 
                 functioning_temperatures = (26.75, 29.05, 17.95), 
-                functioning_moistures = (-0.41, 1.525, 0.24), 
+                functioning_moistures = (-0.41, 1.285), 
                 hyphal_growth_rate = 4.405, 
                 hyphal_density = 0.06) -> None:
         super().__init__(initial_locations, 
@@ -301,7 +301,7 @@ class Fungus10(Fungus):
                 name = "Laetiporus conifericola", 
                 decay_regression_constants = (0.024398907333333168, 0.00362704916666667), 
                 functioning_temperatures = (27.1, 29.6, 17.5), 
-                functioning_moistures = (-0.56, 1.52, 0.3), 
+                functioning_moistures = (-0.56, 1.22), 
                 hyphal_growth_rate = 5.16, 
                 hyphal_density = 0.04) -> None:
         super().__init__(initial_locations, 
@@ -317,7 +317,7 @@ class Fungus11(Fungus):
                 name = "Tyromyces chioneus", 
                 decay_regression_constants = (-0.11937158433333334, 0.01619535516666666), 
                 functioning_temperatures = (30.6, 33.6, 19), 
-                functioning_moistures = (-0.22, 1.27, 0.08), 
+                functioning_moistures = (-0.22, 1.19), 
                 hyphal_growth_rate = 3.88, 
                 hyphal_density = 0.06) -> None:
         super().__init__(initial_locations, 
@@ -333,7 +333,7 @@ class Fungus12(Fungus):
                 name = "Lentinus crinitus", 
                 decay_regression_constants = (-0.05841530033333329, 0.008565573749999996), 
                 functioning_temperatures = (33.8, 40.2, 22.4), 
-                functioning_moistures = (-0.31, 1.68, 0.13), 
+                functioning_moistures = (-0.31, 1.55), 
                 hyphal_growth_rate = 6.38, 
                 hyphal_density = 0.05) -> None:
         super().__init__(initial_locations, 
@@ -349,7 +349,7 @@ class Fungus13(Fungus):
                 name = "Fomes fomentarius", 
                 decay_regression_constants = (-0.18691256833333292, 0.02515710383333332), 
                 functioning_temperatures = (27.3, 30.1, 20.8), 
-                functioning_moistures = (-0.24, 1.29, 0.1), 
+                functioning_moistures = (-0.24, 1.19), 
                 hyphal_growth_rate = 4.71, 
                 hyphal_density = 0.002375) -> None:
         super().__init__(initial_locations, 
@@ -365,7 +365,7 @@ class Fungus14(Fungus):
                 name = "Xylobolus subpileatus", 
                 decay_regression_constants = (-0.02008196733333318, 0.0043579234999999925), 
                 functioning_temperatures = (22.2, 33.6, 5.1), 
-                functioning_moistures = (-0.88, 5.25, 0.29), 
+                functioning_moistures = (-0.88, 4.96), 
                 hyphal_growth_rate = 0.77, 
                 hyphal_density = 1.74) -> None:
         super().__init__(initial_locations, 
