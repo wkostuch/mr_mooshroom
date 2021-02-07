@@ -65,27 +65,22 @@ class Fungus:
         """Determines whether the fungus actually expands"""
 
         #The probability of expansion is based on a weighted random factor based on the hyphal growth rate
-        probability = np.random.rand() * (self.hyphal_growth_rate / utilities.MAX_HYPHAL_GROWTH)
+        probability = (np.random.rand() * self.hyphal_growth_rate)
+        print(probability)
         if probability > utilities.PROBABILITY_THRESHOLD:
             return True
         else:
             return False
 
-    def __expand(self, grid: Grid, location: tuple) -> tuple:
+    def __expand(self, grid: Grid, location: tuple, eligible_neighbors:tuple) -> tuple:
         """Hadles the expansion of the fungus through the grid"""
-        if self.__probability_of_expansion:
-            neighbors = grid.get_neighbors(location)
-
-            #Make sure we are not already there
-            eligible_neighbors = [x for x in neighbors if x not in self.locations]
-
+        if self.__probability_of_expansion():
+            
             #from the eligible neighbors, select one at random
-            if len(eligible_neighbors) != 0:
-                expansion = random.choice(eligible_neighbors)
-            else:
-                return
-            #Add the expanded location to the list 
+            expansion = random.choice(eligible_neighbors)
             return expansion
+            
+        return None
 
     def __kill(self, location: tuple) -> None:
         """Kills the fungus at a specified location"""
@@ -124,7 +119,7 @@ class Fungus:
         for key in self.locations.keys():
             #can't operate on dead things
             if key in self.dead_locations:
-                pass
+                continue
             original_substrate = grid.get_original_biomass_at_location(key)
             current_substrate = grid.get_current_biomass_at_location(key)
 
@@ -137,9 +132,19 @@ class Fungus:
                 grid.set_current_biomass(key, new_substrate)
 
                 #Always trying to expand
-                expansion = self.__expand(grid, key)
-                if expansion != None:
-                    expansions.append(self.__expand(grid, key))
+                
+                neighbors = grid.get_neighbors(key)
+
+                #Make sure we are not already there
+                eligible_neighbors = [x for x in neighbors if x not in self.locations]
+
+                #from the eligible neighbors, select one at random
+                if len(eligible_neighbors) != 0:
+                   
+                    expansion = self.__expand(grid, key, eligible_neighbors)
+                    if expansion != None:
+                     
+                        expansions.append(expansion)
 
             #if there is not enough food, the fungus begins to die
             else:
