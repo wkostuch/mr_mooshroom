@@ -26,6 +26,7 @@ class Climate:
         self.current_moisture = self.moisture_base
         self.current_temperature = self.update_temperature(0)
 
+
     def __str__(self) -> str:
         """Returns a pretty-print string of the Climate data."""
         return f"Climate type: {self.climate_type}\n" + \

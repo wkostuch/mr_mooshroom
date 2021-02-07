@@ -277,10 +277,12 @@ if __name__ == "__main__":
     '''
     temperature_over_time(CLIMATE_NAMES, [], trials=5, time_limit=365)
     number_fungi_over_time_per_climate(CLIMATE_NAMES, FUNGUS_NAMES, trials = 3, time_limit=365*3)
+    decomposition_with_respect_to_biodiversity("Rainforest", FUNGUS_NAMES, trials = 1, time_limit=365*3)
     '''
     
     #biomass_over_time(CLIMATE_NAMES, FUNGUS_NAMES, trials=5, time_limit=365*YEARS)
     #food_eaten_by_day_per_fungi_vs_moisture("Rainforest", FUNGUS_NAMES[0:15], trials = 1, time_limit=365)
-    decomposition_with_respect_to_biodiversity("Rainforest", FUNGUS_NAMES, trials = 1, time_limit=365*3)
+    temperature_over_time(CLIMATE_NAMES, [], trials=3, time_limit=365)
+
     
 
