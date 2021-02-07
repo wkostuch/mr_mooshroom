@@ -126,6 +126,11 @@ class Fungus:
         for key in self.locations.keys():
             #can't operate on dead things
             if key in self.dead_locations:
+                if self.day % utilities.DAYS_UNTIL_EXPANSION == 0:
+                    if not self.climate_death(climate):
+                        if np.random >= 0.5:
+                            resurrected.append(key)
+                            pass
                 continue
             original_substrate = grid.get_original_biomass_at_location(key)
             current_substrate = grid.get_current_biomass_at_location(key)
@@ -148,9 +153,6 @@ class Fungus:
 
                 #from the eligible neighbors, select one at random
                 if len(eligible_neighbors) != 0 and self.day % utilities.DAYS_UNTIL_EXPANSION == 0:
-                    if not self.climate_death(climate):
-                        if np.random >= 0.5:
-                            resurrected.append(key)
                             
                     expansion = self.__expand(grid, key, eligible_neighbors)
                     if expansion != None:
