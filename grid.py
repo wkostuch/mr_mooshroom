@@ -86,6 +86,16 @@ class Grid:
                 locations.append(new_place)
         return locations
 
+    def average_biomass(self) -> float:
+        """Returns the average current biomass of the Grid."""
+        average = 0
+        rows, cols = self.grid_size()
+        for r in range(rows):
+            for c in range(cols):
+                average += self.get_current_biomass_at_location((r, c))
+        average = average / (self.num_cols * self.num_rows)
+        return average
+
     # SETTER METHODS
     def set_value_tuple_at_x_y(self, x: int, y: int, val: tuple):
         """Sets the value at location (x, y) in the Grid to val."""
