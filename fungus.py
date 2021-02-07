@@ -68,7 +68,7 @@ class Fungus:
 
         #The probability of expansion is based on a weighted random factor based on the hyphal growth rate
         probability = (np.random.rand() * self.hyphal_growth_rate)
-        print(probability)
+        #print(probability)
         if probability > utilities.PROBABILITY_THRESHOLD:
             return True
         else:
@@ -86,10 +86,14 @@ class Fungus:
 
     def __kill(self, location: tuple) -> None:
         """Kills the fungus at a specified location"""
-        self.dead_locations.add(location)
+        self.dead_locations.append(location)
 
     def __kill_all(self) -> None:
         """Kill every fungus location"""
+
+    def get_competitive_ranking(self) -> float:
+        """Return's the Fungus' competitive ranking."""
+        return self.competitive_ranking
         
 
     def climate_death(self, climate: Climate) -> bool:
@@ -284,7 +288,7 @@ class Fungus7(Fungus):
     def __init__(self, initial_locations: list, 
                 name = "Hyphodontia crustosa", 
                 decay_regression_constants = (-0.016475410333333527, 0.006372950833333347), 
-                functioning_temperatures = (23.2,25.6, 30.3,7.1), 
+                functioning_temperatures = (23.2,25.6, 30.3), 
                 functioning_moistures = (-0.23, 1.19), 
                 hyphal_growth_rate = 1.96, 
                 hyphal_density = 0.12,
