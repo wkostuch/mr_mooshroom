@@ -97,7 +97,7 @@ def biomass_over_time(climates: List[str], fungi: List[str],
         plt.plot(average_times, 
                 average_biomass, 
                 label=climate)
-    plt.title(f"Biomass vs. Time for different climates \n(trials per climate: {trials}, number of fungi: {len(fungi)}")
+    plt.title(f"Biomass vs. Time for different climates \n(trials per climate: trials {trials}, number of fungi: {len(fungi)}")
     plt.legend()
     plt.xlabel("Time (days)")
     plt.ylabel("Biomass")
@@ -182,11 +182,50 @@ def food_eaten_by_day_per_fungi_vs_moisture(climate: str, fungi: List[str],
     plt.tight_layout()
     plt.show()
 
+def number_fungi_over_time_per_climate(climates: List[str], fungi: List[str],
+                                            trials: int, time_limit: int):
+    """Shows a graph of #fungi per climate over time."""
+    array_length = time_limit 
+    for climate in climates:
+        # Arrays for graphing
+        average_times = np.zeros(array_length)
+        average_fungal_numbers = np.zeros(array_length)
+        for n in range(trials):
+            # Arrays for holding the values
+            times = np.zeros(array_length)
+            fungal_numbers = np.zeros(array_length)
+            # Make a World and run it for a time
+            world = World(climate, (100,100), fungi)
+            # Loop through stuff
+            for i in range(time_limit):
+                time = world.get_time() 
+                times[time] = time
+                total_fungi_at_time = 0
+                for f in world.get_environment().get_fungi_list():
+                    total_fungi_at_time += f.get_number_of_fungal_cells()
+                fungal_numbers[time] = total_fungi_at_time
+                world.increment_time()
+            # Add arrays to average arrays
+            average_times += times
+            average_fungal_numbers += fungal_numbers
+        # Average and plot
+        average_times /= trials
+        average_fungal_numbers /= trials
+        plt.plot(average_times, 
+                average_fungal_numbers, 
+                label=climate)
+    plt.title(f"Number of fungi vs. time: trials: {trials}, number of fungi: {len(fungi)}")
+    plt.legend()
+    plt.xlabel("Time (days)")
+    plt.ylabel("Total number of fungi")
+    plt.show()
+
 
 
 if __name__ == "__main__":
     #temperature_over_time(["Rainforest", "Tundra"], FUNGUS_NAMES[0:5], trials=1, time_limit=365*YEARS)
     #biomass_over_time(CLIMATE_NAMES, FUNGUS_NAMES, trials=5, time_limit=365*YEARS)
-    food_eaten_by_day_per_fungi_vs_moisture("Rainforest", FUNGUS_NAMES[0:15], trials = 1, time_limit=365)
+    #food_eaten_by_day_per_fungi_vs_moisture("Rainforest", FUNGUS_NAMES[0:15], trials = 1, time_limit=365)
+    number_fungi_over_time_per_climate(CLIMATE_NAMES, FUNGUS_NAMES, trials = 3, time_limit=365)
 
 
