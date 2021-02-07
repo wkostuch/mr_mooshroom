@@ -87,6 +87,10 @@ class Climate:
         """Updates the Climate's moisture and temperature."""
         self.update_rain()
         self.update_temperature(time)
+    
+    def get_climate_biomass_density(self):
+        """Returns the Climate's biomass density."""
+        return self.biomass_density
 
     # Climate functions to be used by fungi
     def get_climate_temperature(self) -> float:
@@ -96,7 +100,6 @@ class Climate:
     def get_climate_moisture(self) -> float:
         """Returns the Climate's current moisture level in mPa."""
         return self.current_moisture
-
 
 
 

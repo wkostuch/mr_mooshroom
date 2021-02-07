@@ -18,7 +18,6 @@ class Grid:
                                                         original_biomass + sensitivity)
                 self.map_grid[r][c] = [random_start_biomass, random_start_biomass]
                 
-    
     def __str__(self) -> str:
         """Returns a pretty string representing the Grid's values."""
         return f"Rows: {self.num_rows}\nColumns: {self.num_cols}\n{self.map_grid}"
