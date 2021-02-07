@@ -70,7 +70,6 @@ class Fungus:
 
         #The probability of expansion is based on a weighted random factor based on the hyphal growth rate
         probability = np.random.rand() 
-        print(probability)
         if probability < utilities.probability_thresholds[self.name]:
             return True
         else:
@@ -88,7 +87,7 @@ class Fungus:
 
     def __kill(self, location: tuple) -> None:
         """Kills the fungus at a specified location"""
-        self.dead_locations.add(location)
+        self.dead_locations.append(location)
 
     def __kill_all(self) -> None:
         """Kill every fungus location"""
@@ -181,6 +180,10 @@ class Fungus:
     def get_amount_of_substrate_eaten_today(self) -> float:
         """Returns the amount of substrate eaten after a turn"""
         return self.amount_eaten_today
+
+    def get_competitive_ranking(self) -> float:
+        """Returns the Fungus' competitive ranking."""
+        return self.competitive_ranking
 
     def turn(self, grid:Grid, climate:Climate) -> None:
         """Executes a turn on a Fungus"""

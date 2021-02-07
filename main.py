@@ -104,10 +104,9 @@ def temperature_over_time(climates: List[str], fungi: List[str],
 
 if __name__ == "__main__":
     worlds = []
-    temperature_over_time(["Rainforest", "Tundra"], FUNGUS_NAMES[0:5], 
+    #temperature_over_time(["Rainforest", "Tundra"], FUNGUS_NAMES[0:5], 
+     #                   trials=1, time_limit=365*YEARS)
+    biomass_over_time(["Rainforest", "Tundra"], FUNGUS_NAMES, 
                         trials=1, time_limit=365*YEARS)
-    #biomass_over_time(["Rainforest", "Tundra"], [], 
-    #                    trials=1, time_limit=365*YEARS)
 
 
-        
