@@ -12,7 +12,7 @@ CLIMATE_NAMES = ["Desert", "Tundra", "Grassland", "Shrubland",
                 "TemperateDeciduousForest", "ConiferousForest",
                 "Rainforest"]
 
-FUNGUS_NAMES = []
+FUNGUS_NAMES = ["Phellinus robiniae"]
 
 
 if __name__ == "__main__":
@@ -23,13 +23,14 @@ if __name__ == "__main__":
         temp_array = np.zeros(365)
 
         # Make a World and run it for a year
-        world = World(climate, (100, 100), [])
+        world = World(climate, (100, 100), ["Phellinus robiniae"])
         for i in range(365):
             time = world.get_time()
             time_array[time] = time 
             temp_array[time] = world.get_environment().get_climate().get_climate_temperature()
             world.increment_time()
         plt.plot(time_array, temp_array, label=climate)
+    plt.title("Temperature vs. Time for different climates")
     plt.legend()
     plt.xlabel("Time (days)")
     plt.ylabel("Temperature (degrees C)")

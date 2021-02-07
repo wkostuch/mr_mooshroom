@@ -1,8 +1,14 @@
 from typing import List, Tuple
 from grid import Grid
+<<<<<<< HEAD
 from fungus import Fungus, Fungus1, Fungus10, Fungus11, Fungus12, Fungus13, Fungus14, Fungus2, Fungus3, Fungus4, Fungus5, Fungus6, Fungus7, Fungus8, Fungus9 
+=======
+from fungus import Fungus, Fungus1 
+>>>>>>> 40da77bdc84d72cbc9c99871b69040d94aac3821
 from climate import Climate, Desert, Tundra, Shrubland, Grassland, \
     TemperateDeciduousForest, ConiferousForest, Rainforest
+
+NUM_LOCATIONS = 1
 
 
 class Environment:
@@ -41,7 +47,8 @@ class Environment:
         self.grid = Grid(grid_size[0], grid_size[1], 
                         self.climate.get_climate_biomass_density(), 
                         sensitivity=0.15)
-        self.fungus_list = [self.fungus_map.get(new_fungus) for new_fungus in fungus_list]
+        self.fungus_list = [self.fungus_map.get(new_fungus)(self.grid.generate_random_locations(NUM_LOCATIONS)) 
+                            for new_fungus in fungus_list]
 
     def update(self, time: int):
         """Update's the Environment using time."""

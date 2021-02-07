@@ -74,6 +74,13 @@ class Grid:
                     neighbors.append((x + row, y + col))
         return neighbors
 
+    def generate_random_locations(self, location_num: int) -> List[Tuple[int, int]]:
+        """Generates location_num locations in the Grid and puts them in a list."""
+        locations = list()
+        for i in range(location_num):
+            rows, cols = self.grid_size()
+            locations.append((random.randint(0, rows), random.randint(0, cols)))
+        return locations
 
     # SETTER METHODS
     def set_value_tuple_at_x_y(self, x: int, y: int, val: tuple):
