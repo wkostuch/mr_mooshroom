@@ -28,6 +28,7 @@ class Fungus:
         self.dead_locations =[]
         self.competitive_ranking = competitive_ranking
         self.all_dead = False
+        self.day = 0
         
 
     def __load_initial_locations(self, initial_locations: tuple) -> dict:
@@ -67,9 +68,9 @@ class Fungus:
         """Determines whether the fungus actually expands"""
 
         #The probability of expansion is based on a weighted random factor based on the hyphal growth rate
-        probability = (np.random.rand() * self.hyphal_growth_rate)
+        probability = np.random.rand() 
         print(probability)
-        if probability > utilities.PROBABILITY_THRESHOLD:
+        if probability < utilities.probability_thresholds[self.name]:
             return True
         else:
             return False
@@ -141,7 +142,7 @@ class Fungus:
                 eligible_neighbors = [x for x in neighbors if x not in self.locations]
 
                 #from the eligible neighbors, select one at random
-                if len(eligible_neighbors) != 0:
+                if len(eligible_neighbors) != 0 and self.day % utilities.DAYS_UNTIL_EXPANSION == 0:
                    
                     expansion = self.__expand(grid, key, eligible_neighbors)
                     if expansion != None:
@@ -161,6 +162,7 @@ class Fungus:
     def turn(self, grid:Grid, climate:Climate) -> None:
         """Executes a turn on a Fungus"""
 
+        self.day += 1
         #Are we already dead?
         if self.all_dead:
             return
@@ -284,7 +286,7 @@ class Fungus7(Fungus):
     def __init__(self, initial_locations: list, 
                 name = "Hyphodontia crustosa", 
                 decay_regression_constants = (-0.016475410333333527, 0.006372950833333347), 
-                functioning_temperatures = (23.2,25.6, 30.3,7.1), 
+                functioning_temperatures = (23.2,25.6, 30.3), 
                 functioning_moistures = (-0.23, 1.19), 
                 hyphal_growth_rate = 1.96, 
                 hyphal_density = 0.12,
