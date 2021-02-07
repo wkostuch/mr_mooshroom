@@ -81,7 +81,9 @@ class Grid:
         locations = list()
         for i in range(location_num):
             rows, cols = self.grid_size()
-            locations.append((random.randint(0, rows-1), random.randint(0, cols-1)))
+            new_place = (random.randint(0, rows-1), random.randint(0, cols-1))
+            if new_place not in locations:
+                locations.append(new_place)
         return locations
 
     # SETTER METHODS
