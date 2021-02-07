@@ -28,7 +28,7 @@ FUNGUS_NAMES = ["Phellinus robiniae",
                     "Fomes fomentarius",
                     "Xylobolus subpileatus"]
 COLLECTION_INTERVAL = 10
-YEARS = 2
+YEARS = 1
 
 def biomass_over_time(climates: List[str], fungi: List[str], 
                         trials: int, time_limit: int):
@@ -104,10 +104,10 @@ def temperature_over_time(climates: List[str], fungi: List[str],
 
 if __name__ == "__main__":
     worlds = []
-    temperature_over_time(["Rainforest", "Tundra"], [], 
+    temperature_over_time(["Rainforest", "Tundra"], FUNGUS_NAMES[0:5], 
                         trials=1, time_limit=365*YEARS)
-    biomass_over_time(["Rainforest", "Tundra"], [], 
-                        trials=1, time_limit=365*YEARS)
+    #biomass_over_time(["Rainforest", "Tundra"], [], 
+    #                    trials=1, time_limit=365*YEARS)
 
 
         
