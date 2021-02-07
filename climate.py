@@ -75,8 +75,18 @@ class Climate:
         new_temp = ((a + b) / 2) + ((b - a) / 2)*math.sin((2*math.pi*time) / 365)
         self.__set_current_temperature(new_temp)
 
-    #TODO: Update current biomass with litter and wood
+    ## Biomass functions
+    def get_inbound_biomass(self, time: int) -> float:
+        """Returns the amount of biomass that enters the Climate at 
+            a specific time."""
+#TODO: Check this value for calibration purposes once it's up and running
+        return self.biomass_density + self.biomass_density*0.2*math.sin((2*math.pi*time) / 365)
 
+    # Function that Environment calls each day
+    def update_climate_per_day(self, time: int):
+        """Updates the Climate's moisture and temperature."""
+        self.update_rain()
+        self.update_temperature(time)
 
     # Climate functions to be used by fungi
     def get_climate_temperature(self) -> float:
