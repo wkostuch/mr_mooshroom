@@ -128,7 +128,7 @@ class Fungus:
             if key in self.dead_locations:
                 if self.day % utilities.DAYS_UNTIL_EXPANSION == 0:
                     if not self.climate_death(climate):
-                        if np.random >= 0.5:
+                        if np.random.uniform() >= 0.5:
                             resurrected.append(key)
                             pass
                 continue
