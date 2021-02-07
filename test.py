@@ -6,8 +6,8 @@ from utilities import rainfall_inches_to_mPa
 from world import World
 
 
-e = Environment("Rainforest", (3, 3), ["Phellinus robiniae"])
+e = Environment("Rainforest", (100, 100), ["Xylobolus subpileatus"])
 print(e.fungus_list[0].locations)
-for i in range(1000):
+for i in range(365):
     e.update(i)
-print(e.fungus_list[0].locations)
+print(len(e.fungus_list[0].locations.keys()))
