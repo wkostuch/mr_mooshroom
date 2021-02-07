@@ -6,8 +6,6 @@ class World:
     """World class that handles running the Environment."""
 
     #TODO
-    # - Handle Time
-    # - Create an environment easily
     # - Methods for asking each part of the model for useful data
 
     def __init__(self, 
