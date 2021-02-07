@@ -29,6 +29,7 @@ class Fungus:
         self.competitive_ranking = competitive_ranking
         self.all_dead = False
         self.day = 0
+        self.amount_eaten_today = 0
         
 
     def __load_initial_locations(self, initial_locations: tuple) -> dict:
@@ -130,6 +131,7 @@ class Fungus:
 
             #If there is enough substrate, eat
             if consumed_substrate < current_substrate:
+                self.amount_eaten_today += consumed_substrate
                 new_substrate = current_substrate - consumed_substrate
                 self.locations[key] = self.locations[key] + consumed_substrate
                 grid.set_current_biomass(key, new_substrate)
@@ -158,11 +160,34 @@ class Fungus:
 
         for died in killed:
             self.__kill(died)
+    
+    def get_number_of_fungal_cells(self) -> int:
+        """Returns the number of cells the fugnus took over"""
+        return len(self.locations)
+    
+    def get_number_of_deaths(self) -> int:
+        """Return the number of fungal cells that died"""
+        if self.all_dead:
+            return self.get_number_of_fungal_cells()
+        else:
+            return len(self.dead_locations)
+
+    def get_total_amount_of_substrate_eaten(self) -> float:
+        """Returns the total amount that the fungus has eaten"""
+        amount = 0
+        for key in self.locations:
+            amount += self.locations[key]
+    
+    def get_amount_of_substrate_eaten_today(self) -> float:
+        """Returns the amount of substrate eaten after a turn"""
+        return self.amount_eaten_today
+
 
     def turn(self, grid:Grid, climate:Climate) -> None:
         """Executes a turn on a Fungus"""
 
         self.day += 1
+        self.amount_eaten_today = 0
         #Are we already dead?
         if self.all_dead:
             return
