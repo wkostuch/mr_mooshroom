@@ -57,7 +57,6 @@ class Fungus:
         #Calculate the decay rate based on the regression constants
         A,B = self.decay_regression_constants
         decay = A + (B * temperature)
-
         return decay
 
     def __moisture_multiplier(self, moisture: float) -> float:
@@ -135,7 +134,7 @@ class Fungus:
             if consumed_substrate < current_substrate:
                 new_substrate = current_substrate - consumed_substrate
                 self.locations[key] = self.locations[key] + consumed_substrate
-                grid.set_value(key, new_substrate)
+                grid.set_current_biomass(key, new_substrate)
 
                 #If the expansion threshold has been reached, seek expansion
                 if  self.locations[key] >= self.substrate_threshold:
