@@ -28,17 +28,52 @@ FUNGUS_NAMES = ["Phellinus robiniae",
                     "Fomes fomentarius",
                     "Xylobolus subpileatus"]
 
-def biomass_over_time(climates: List[str], fungi: List[str], trials: int):
+def biomass_over_time(climates: List[str], fungi: List[str], 
+                        trials: int, time_limit: int, data_interval: int):
     """Shows a graph of average biomass over time for each climate after running the trials."""
-    pass
+    for climate in climates:
+        # Arrays for graphing
+        average_times = np.zeros(time_limit//data_interval)
+        average_biomass = np.zeros(time_limit//data_interval)
+        for n in range(trials):
+            # Skip if we're not at the collection interval
+            if n % data_interval is not 0:
+                continue
+            # Arrays for holding the values
+            times = np.zeros(time_limit)
+            biomasses = np.zeros(time_limit)
+            # Make a World and run it for a time
+            world = World(climate, (100,100), fungi)
+            # Loop through stuff
+            for i in range(time_limit):
+                time = world.get_time()
+                times[time] = time
+                biomasses[time] = world.get_environment().get_grid().average_biomass()
+                world.increment_time()
+            # Add arrays to average arrays
+            average_times += times
+            average_biomass += biomasses
+        # Average and plot
+        average_times /= trials
+        average_biomass /= trials
+        plt.plot(average_times, average_biomass, label=climate)
+    plt.title("Biomass vs. Time for different climates")
+    plt.legend()
+    plt.xlabel("Time (days)")
+    plt.ylabel("Biomass")
+    plt.show()
 
-def temperature_over_time(climates: List[str], fungi: List[str], trials: int, time_limit: int):
+def temperature_over_time(climates: List[str], fungi: List[str], 
+                        trials: int, time_limit: int, data_interval: int):
     """Shows a graph of average temperature over time for each climate after running the trials."""
     for climate in climates:
         # Arrays for graphing
-        average_times = np.zeros(time_limit)
-        average_temps = np.zeros(time_limit)
+        average_times = np.zeros(time_limit//data_interval)
+        average_temps = np.zeros(time_limit//data_interval)
         for n in range(trials):
+            # Skip if we're not at the collection interval
+            if n % data_interval is not 0:
+                continue
             # Arrays for holding the values
             times = np.zeros(time_limit)
             temps = np.zeros(time_limit)
@@ -67,7 +102,8 @@ def temperature_over_time(climates: List[str], fungi: List[str], trials: int, ti
 
 if __name__ == "__main__":
     worlds = []
-    temperature_over_time(CLIMATE_NAMES, [], 5, 10)
+    #temperature_over_time(CLIMATE_NAMES, [], 5, 10)
+    biomass_over_time(CLIMATE_NAMES, [], 5, 365)
 
 
         
