@@ -28,7 +28,7 @@ FUNGUS_NAMES = ["Phellinus robiniae",
                     "Fomes fomentarius",
                     "Xylobolus subpileatus"]
 COLLECTION_INTERVAL = 10
-YEARS = 5
+YEARS = 3
 
 def total_food_eaten_over_time(climates: List[str], fungi: List[str], 
                         trials: int, time_limit: int):
@@ -132,10 +132,11 @@ def temperature_over_time(climates: List[str], fungi: List[str],
         plt.plot(average_times, 
                 average_temps, 
                 label=climate)
-    plt.title("Temperature vs. Time for different climates")
+    plt.title("Temperature vs. Time")
     plt.legend()
     plt.xlabel("Time (days)")
     plt.ylabel("Temperature (degrees C)")
+    plt.tight_layout()
     plt.show()
 
 def food_eaten_by_day_per_fungi_vs_moisture(climate: str, fungi: List[str],
@@ -214,18 +215,72 @@ def number_fungi_over_time_per_climate(climates: List[str], fungi: List[str],
         plt.plot(average_times, 
                 average_fungal_numbers, 
                 label=climate)
-    plt.title(f"Number of fungi vs. time: trials: {trials}, number of fungi: {len(fungi)}")
+    plt.title(f"Number of Fungi vs. Time")
     plt.legend()
     plt.xlabel("Time (days)")
     plt.ylabel("Total number of fungi")
     plt.show()
 
+def decomposition_with_respect_to_biodiversity(climate: str, fungi: List[str],
+                                            trials: int, time_limit: int):
+    """Shows biodiversity via subplots related to number of fungi in an area."""
+    num_fung = [1, 3, 7, 14]
+    fig, axs = plt.subplots(2,2)
+    for n in num_fung:
+        # Arrays for graphing
+        avg_time_array = np.zeros(time_limit)
+        avg_biomass_array = np.zeros(time_limit)
+        fungi_to_use = fungi[0:n]
+        # Do each trial
+        for trial in range(trials):
+            times = np.zeros(time_limit)
+            biomass = np.zeros(time_limit)
+            # make a World
+            world = World(climate, (100, 100), fungi_to_use)
+            # Run the world
+            for i in range(time_limit):
+                time = world.get_time() 
+                times[time] = time
+                biomass[time] = world.get_environment().get_grid().average_biomass()
+                world.increment_time()
+            # Add arrays to average arrays
+            avg_biomass_array += biomass 
+            avg_time_array += times 
+        # Average and plot into subplot
+        avg_biomass_array /= trials 
+        avg_time_array /= trials 
+        if n is 1:
+            axs[0, 0].plot(avg_time_array, avg_biomass_array)
+            axs[0, 0].set_title('Biomass vs. Time (1 Fungus)')
+        if n is 3:
+            axs[0, 1].plot(avg_time_array, avg_biomass_array)
+            axs[0, 1].set_title('Biomass vs. Time (3 Fungi)')
+        if n is 7: 
+            axs[1, 0].plot(avg_time_array, avg_biomass_array)
+            axs[1, 0].set_title('Biomass vs. Time (7 Fungi)')
+        if n is 14:
+            axs[1, 1].plot(avg_time_array, avg_biomass_array)
+            axs[1, 1].set_title('Biomass vs. Time (14 Fungi)')
+        for ax in axs.flat:
+            ax.set(xlabel="Time (Days)", ylabel="Average biomass")
+    plt.legend()
+    plt.tight_layout()
+    plt.show()
+
+
+
+
 
 
 if __name__ == "__main__":
-    #temperature_over_time(["Rainforest", "Tundra"], FUNGUS_NAMES[0:5], trials=1, time_limit=365*YEARS)
+    # Graphs made:
+    '''
+    temperature_over_time(CLIMATE_NAMES, [], trials=5, time_limit=365)
+    number_fungi_over_time_per_climate(CLIMATE_NAMES, FUNGUS_NAMES, trials = 3, time_limit=365*3)
+    '''
+    
     #biomass_over_time(CLIMATE_NAMES, FUNGUS_NAMES, trials=5, time_limit=365*YEARS)
     #food_eaten_by_day_per_fungi_vs_moisture("Rainforest", FUNGUS_NAMES[0:15], trials = 1, time_limit=365)
-    number_fungi_over_time_per_climate(CLIMATE_NAMES, FUNGUS_NAMES, trials = 3, time_limit=365)
-
+    decomposition_with_respect_to_biodiversity("Rainforest", FUNGUS_NAMES, trials = 1, time_limit=365*3)
+    
 
