@@ -71,7 +71,7 @@ class Fungus:
         else:
             return False
 
-    def __expand(self, grid: Grid, location: tuple) -> None:
+    def __expand(self, grid: Grid, location: tuple) -> tuple:
         """Hadles the expansion of the fungus through the grid"""
         if self.__probability_of_expansion:
             neighbors = grid.get_neighbors(location)
@@ -83,7 +83,7 @@ class Fungus:
             expansion = random.choice(eligible_neighbors)
 
             #Add the expanded location to the list 
-            self.__add_location(expansion)
+            return expansion
 
     def __kill(self, location: tuple) -> None:
         """Kills the fungus at a specified location"""
@@ -115,6 +115,9 @@ class Fungus:
 
         temperature = climate.get_climate_temperature()
         moisture = climate.get_climate_moisture()
+        
+        expansions = []
+        killed =[]
         #Loop over the keys
         for key in self.locations.keys():
             #can't operate on dead things
@@ -132,11 +135,17 @@ class Fungus:
                 grid.set_current_biomass(key, new_substrate)
 
                 #Always trying to expand
-                self.__expand(grid, key)
+                expansions.add(self.__expand(grid, key))
 
             #if there is not enough food, the fungus begins to die
             else:
-                self.__kill(key)
+                killed.add(key)
+
+            for location in expansions:
+                self.__add_location(location)
+
+            for died in killed:
+                self.__kill(died)
 
     def turn(self, grid:Grid, climate:Climate) -> None:
         """Executes a turn on a Fungus"""
