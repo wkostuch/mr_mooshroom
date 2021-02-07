@@ -91,6 +91,9 @@ class Fungus:
 
     def __kill_all(self) -> None:
         """Kill every fungus location"""
+        self.all_dead = True
+        for key in self.locations.keys():
+            self.dead_locations.append(key)
         
 
     def climate_death(self, climate: Climate) -> bool:
@@ -118,6 +121,7 @@ class Fungus:
         
         expansions = []
         killed =[]
+        resurrected = []
         #Loop over the keys
         for key in self.locations.keys():
             #can't operate on dead things
@@ -144,7 +148,10 @@ class Fungus:
 
                 #from the eligible neighbors, select one at random
                 if len(eligible_neighbors) != 0 and self.day % utilities.DAYS_UNTIL_EXPANSION == 0:
-                   
+                    if not self.climate_death(climate):
+                        if np.random >= 0.5:
+                            resurrected.append(key)
+                            
                     expansion = self.__expand(grid, key, eligible_neighbors)
                     if expansion != None:
                      
@@ -159,6 +166,9 @@ class Fungus:
 
         for died in killed:
             self.__kill(died)
+        
+        for risen in resurrected:
+            self.dead_locations.remove(risen)
     
     def get_number_of_fungal_cells(self) -> int:
         """Returns the number of cells the fugnus took over"""
