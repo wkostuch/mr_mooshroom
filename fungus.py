@@ -60,6 +60,12 @@ class Fungus:
 
         return decay
 
+    def __moisture_multiplier(self, moisture: float) -> float:
+        """Returns a weighted multiplier based on the moisture"""
+        optimal_moisture,_,_= self.functioning_moistures
+
+        return ((moisture - abs(optimal_moisture - moisture)) / optimal_moisture)
+
     def __probability_of_expansion(self) -> bool:
         """Determines whether the fungus actually expands"""
 
@@ -109,8 +115,11 @@ class Fungus:
 
         return max_temp_exceeded or min_temp_below or max_moisture_exceeded or min_moisture_below
         
-    def __consume_substrate(self, grid: Grid, temperature: float) -> None:
+    def __consume_substrate(self, grid: Grid, climate: Climate) -> None:
         """Consume substrate at the current Fungus locations"""
+
+        temperature = climate.get_climate_temperature()
+        moisture = climate.get_climate_moisture()
 
         #Loop over the keys
         for key in self.locations:
@@ -120,7 +129,7 @@ class Fungus:
             original_substrate = grid.get_original_value(key)
             current_substrate = grid.get_current_value(key)
 
-            consumed_substrate = original_substrate * self.__decay_rate(temperature)
+            consumed_substrate = original_substrate * (self.__decay_rate(temperature) * self.__moisture_multiplier(moisture))
 
             #If there is enough substrate, eat
             if consumed_substrate < current_substrate:
@@ -148,7 +157,7 @@ class Fungus:
             self.__kill_all()
         #If not, it gets to eat
         else:
-            self.__consume_substrate
+            self.__consume_substrate(grid, climate)
             
         
         
