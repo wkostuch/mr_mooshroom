@@ -1,8 +1,10 @@
 from typing import List, Tuple
 from grid import Grid
-from fungus import Fungus 
+from fungus import Fungus, Fungus1 
 from climate import Climate, Desert, Tundra, Shrubland, Grassland, \
     TemperateDeciduousForest, ConiferousForest, Rainforest
+
+NUM_LOCATIONS = 1
 
 
 class Environment:
@@ -17,7 +19,7 @@ class Environment:
                     "ConiferousForest": ConiferousForest(),
                     "Rainforest": Rainforest()}
     # Dictionary for mapping strings to Fungus objects
-    fungus_map = {}
+    fungus_map = {"Phellinus robiniae": Fungus1}
 
     def __init__(self, 
                 climate_type: str,
@@ -28,7 +30,8 @@ class Environment:
         self.grid = Grid(grid_size[0], grid_size[1], 
                         self.climate.get_climate_biomass_density(), 
                         sensitivity=0.15)
-        self.fungus_list = [self.fungus_map.get(new_fungus) for new_fungus in fungus_list]
+        self.fungus_list = [self.fungus_map.get(new_fungus)(self.grid.generate_random_locations(NUM_LOCATIONS)) 
+                            for new_fungus in fungus_list]
 
     def update(self, time: int):
         """Update's the Environment using time."""
