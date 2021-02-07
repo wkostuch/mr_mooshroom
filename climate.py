@@ -72,7 +72,7 @@ class Climate:
         """Updates the current Climate temperature according to time
             given by the Environment and by Climate specifics."""
         a,b = self.temperature_range
-        new_temp = ((a + b) / 2) + ((b - a) / 2)*math.sin((2*math.pi*time) / 365)
+        new_temp = ((a + b) / 2) + ((b - a) / 2)*math.sin((2*math.pi*time) / 365) * random.uniform(0.85, 1.15)
         self.__set_current_temperature(new_temp)
 
     ## Biomass functions
