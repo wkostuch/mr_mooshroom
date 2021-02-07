@@ -14,7 +14,8 @@ class Fungus:
     functioning_temperatures: tuple,
     functioning_moistures: tuple,
     hyphal_growth_rate: float,
-    hyphal_density: float) -> None:
+    hyphal_density: float,
+    competitive_ranking: float) -> None:
 
         self.name = name
         self.decay_regression_constants = decay_regression_constants
@@ -25,6 +26,7 @@ class Fungus:
 
         self.locations = self.__load_initial_locations(initial_locations)
         self.dead_locations =[]
+        self.competitive_ranking = competitive_ranking
         self.all_dead = False
         
 
@@ -177,14 +179,16 @@ class Fungus1(Fungus):
                 functioning_temperatures = (29.45,32.3,20.25), 
                 functioning_moistures = (-0.625, 1.505), 
                 hyphal_growth_rate = 2.22, 
-                hyphal_density = 0.095) -> None:
+                hyphal_density = 0.095,
+                competitive_ranking = 0.16216216216216218) -> None:
         super().__init__(initial_locations, 
                 name, 
                 decay_regression_constants, 
                 functioning_temperatures, 
                 functioning_moistures, 
                 hyphal_growth_rate, 
-                hyphal_density)
+                hyphal_density,
+                competitive_ranking)
 
 class Fungus2(Fungus):
     def __init__(self, initial_locations: list, 
@@ -193,14 +197,16 @@ class Fungus2(Fungus):
                 functioning_temperatures = (19.1,28.2,9.6), 
                 functioning_moistures = (-0.65,1.57), 
                 hyphal_growth_rate = 1.54, 
-                hyphal_density = 1.8) -> None:
+                hyphal_density = 1.8,
+                competitive_ranking = 0.24324324324324326) -> None:
         super().__init__(initial_locations, 
                 name, 
                 decay_regression_constants, 
                 functioning_temperatures, 
                 functioning_moistures, 
                 hyphal_growth_rate, 
-                hyphal_density)
+                hyphal_density,
+                competitive_ranking)
 
 class Fungus3(Fungus):
     def __init__(self, initial_locations: list, 
@@ -209,14 +215,16 @@ class Fungus3(Fungus):
                 functioning_temperatures = (31.5,35.3,16.7), 
                 functioning_moistures = (-0.06,1.4), 
                 hyphal_growth_rate = 4.04, 
-                hyphal_density = 0.03) -> None:
+                hyphal_density = 0.03,
+                competitive_ranking = 0.21621621621621623) -> None:
         super().__init__(initial_locations, 
                 name, 
                 decay_regression_constants, 
                 functioning_temperatures, 
                 functioning_moistures, 
                 hyphal_growth_rate, 
-                hyphal_density)
+                hyphal_density,
+                competitive_ranking)
 
 class Fungus4(Fungus):
     def __init__(self, initial_locations: list, 
@@ -225,14 +233,16 @@ class Fungus4(Fungus):
                 functioning_temperatures = (26.15,32.7,15.7), 
                 functioning_moistures = (-0.445,2.375), 
                 hyphal_growth_rate = 0.785, 
-                hyphal_density = 0.35) -> None:
+                hyphal_density = 0.35,
+                competitive_ranking = 0.06756756756756757) -> None:
         super().__init__(initial_locations, 
                 name, 
                 decay_regression_constants, 
                 functioning_temperatures, 
                 functioning_moistures, 
                 hyphal_growth_rate, 
-                hyphal_density)
+                hyphal_density,
+                competitive_ranking)
 
 class Fungus5(Fungus):
     def __init__(self, initial_locations: list, 
@@ -241,14 +251,16 @@ class Fungus5(Fungus):
                 functioning_temperatures = (26.4, 31.7, 16.7), 
                 functioning_moistures = (-0.64, 1.24), 
                 hyphal_growth_rate = 4.06, 
-                hyphal_density = 0.32) -> None:
+                hyphal_density = 0.32,
+                competitive_ranking = 0.21621621621621623) -> None:
         super().__init__(initial_locations, 
                 name, 
                 decay_regression_constants, 
                 functioning_temperatures, 
                 functioning_moistures, 
                 hyphal_growth_rate, 
-                hyphal_density)
+                hyphal_density,
+                competitive_ranking)
 
 class Fungus6(Fungus):
     def __init__(self, initial_locations: list, 
@@ -257,14 +269,16 @@ class Fungus6(Fungus):
                 functioning_temperatures = (32.55, 36.4, 19.75), 
                 functioning_moistures = (-0.775, 2.26), 
                 hyphal_growth_rate = 1.785, 
-                hyphal_density = 0.56) -> None:
+                hyphal_density = 0.56,
+                competitive_ranking = 0.391891891891891915) -> None:
         super().__init__(initial_locations, 
                 name, 
                 decay_regression_constants, 
                 functioning_temperatures, 
                 functioning_moistures, 
                 hyphal_growth_rate, 
-                hyphal_density)
+                hyphal_density,
+                competitive_ranking)
 
 class Fungus7(Fungus):
     def __init__(self, initial_locations: list, 
@@ -273,14 +287,16 @@ class Fungus7(Fungus):
                 functioning_temperatures = (23.2,25.6, 30.3,7.1), 
                 functioning_moistures = (-0.23, 1.19), 
                 hyphal_growth_rate = 1.96, 
-                hyphal_density = 0.12) -> None:
+                hyphal_density = 0.12,
+                competitive_ranking = 0.32432432432432434) -> None:
         super().__init__(initial_locations, 
                 name, 
                 decay_regression_constants, 
                 functioning_temperatures, 
                 functioning_moistures, 
                 hyphal_growth_rate, 
-                hyphal_density)
+                hyphal_density,
+                competitive_ranking)
 
 class Fungus8(Fungus):
     def __init__(self, initial_locations: list, 
@@ -289,14 +305,16 @@ class Fungus8(Fungus):
                 functioning_temperatures = (27.15, 30.85, 12.7), 
                 functioning_moistures = (-0.475, 1.235), 
                 hyphal_growth_rate = 8.63, 
-                hyphal_density = 0.205) -> None:
+                hyphal_density = 0.205,
+                competitive_ranking = 0.97297297297297295) -> None:
         super().__init__(initial_locations, 
                 name, 
                 decay_regression_constants, 
                 functioning_temperatures, 
                 functioning_moistures, 
                 hyphal_growth_rate, 
-                hyphal_density)
+                hyphal_density,
+                competitive_ranking)
 
 class Fungus9(Fungus):
     def __init__(self, initial_locations: list, 
@@ -305,14 +323,16 @@ class Fungus9(Fungus):
                 functioning_temperatures = (26.75, 29.05, 17.95), 
                 functioning_moistures = (-0.41, 1.285), 
                 hyphal_growth_rate = 4.405, 
-                hyphal_density = 0.06) -> None:
+                hyphal_density = 0.06,
+                competitive_ranking =  0.44594594594594592) -> None:
         super().__init__(initial_locations, 
                 name, 
                 decay_regression_constants, 
                 functioning_temperatures, 
                 functioning_moistures, 
                 hyphal_growth_rate, 
-                hyphal_density)
+                hyphal_density,
+                competitive_ranking)
 
 class Fungus10(Fungus):
     def __init__(self, initial_locations: list, 
@@ -321,14 +341,16 @@ class Fungus10(Fungus):
                 functioning_temperatures = (27.1, 29.6, 17.5), 
                 functioning_moistures = (-0.56, 1.22), 
                 hyphal_growth_rate = 5.16, 
-                hyphal_density = 0.04) -> None:
+                hyphal_density = 0.04,
+                competitive_ranking = 0.08108108108108109) -> None:
         super().__init__(initial_locations, 
                 name, 
                 decay_regression_constants, 
                 functioning_temperatures, 
                 functioning_moistures, 
                 hyphal_growth_rate, 
-                hyphal_density)
+                hyphal_density,
+                competitive_ranking)
 
 class Fungus11(Fungus):
     def __init__(self, initial_locations: list, 
@@ -337,14 +359,16 @@ class Fungus11(Fungus):
                 functioning_temperatures = (30.6, 33.6, 19), 
                 functioning_moistures = (-0.22, 1.19), 
                 hyphal_growth_rate = 3.88, 
-                hyphal_density = 0.06) -> None:
+                hyphal_density = 0.06,
+                competitive_ranking = 0.6486486486486487 ) -> None:
         super().__init__(initial_locations, 
                 name, 
                 decay_regression_constants, 
                 functioning_temperatures, 
                 functioning_moistures, 
                 hyphal_growth_rate, 
-                hyphal_density)
+                hyphal_density,
+                competitive_ranking)
 
 class Fungus12(Fungus):
     def __init__(self, initial_locations: list, 
@@ -353,14 +377,16 @@ class Fungus12(Fungus):
                 functioning_temperatures = (33.8, 40.2, 22.4), 
                 functioning_moistures = (-0.31, 1.55), 
                 hyphal_growth_rate = 6.38, 
-                hyphal_density = 0.05) -> None:
+                hyphal_density = 0.05,
+                competitive_ranking = 0.32432432432432434) -> None:
         super().__init__(initial_locations, 
                 name, 
                 decay_regression_constants, 
                 functioning_temperatures, 
                 functioning_moistures, 
                 hyphal_growth_rate, 
-                hyphal_density)
+                hyphal_density,
+                competitive_ranking)
 
 class Fungus13(Fungus):
     def __init__(self, initial_locations: list, 
@@ -369,14 +395,16 @@ class Fungus13(Fungus):
                 functioning_temperatures = (27.3, 30.1, 20.8), 
                 functioning_moistures = (-0.24, 1.19), 
                 hyphal_growth_rate = 4.71, 
-                hyphal_density = 0.002375) -> None:
+                hyphal_density = 0.002375,
+                competitive_ranking = 0.08108108108108109) -> None:
         super().__init__(initial_locations, 
                 name, 
                 decay_regression_constants, 
                 functioning_temperatures, 
                 functioning_moistures, 
                 hyphal_growth_rate, 
-                hyphal_density)
+                hyphal_density,
+                competitive_ranking)
 
 class Fungus14(Fungus):
     def __init__(self, initial_locations: list, 
@@ -385,11 +413,13 @@ class Fungus14(Fungus):
                 functioning_temperatures = (22.2, 33.6, 5.1), 
                 functioning_moistures = (-0.88, 4.96), 
                 hyphal_growth_rate = 0.77, 
-                hyphal_density = 1.74) -> None:
+                hyphal_density = 1.74,
+                competitive_ranking = 0.24324324324324326) -> None:
         super().__init__(initial_locations, 
                 name, 
                 decay_regression_constants, 
                 functioning_temperatures, 
                 functioning_moistures, 
                 hyphal_growth_rate, 
-                hyphal_density)
+                hyphal_density,
+                competitive_ranking)
