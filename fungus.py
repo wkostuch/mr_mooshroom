@@ -115,14 +115,13 @@ class Fungus:
 
         temperature = climate.get_climate_temperature()
         moisture = climate.get_climate_moisture()
-
         #Loop over the keys
-        for key in self.locations:
+        for key in self.locations.keys():
             #can't operate on dead things
             if key in self.dead_locations:
                 pass
-            original_substrate = grid.get_original_value(key)
-            current_substrate = grid.get_current_value(key)
+            original_substrate = grid.get_original_biomass_at_location(key)
+            current_substrate = grid.get_current_biomass_at_location(key)
 
             consumed_substrate = original_substrate * (self.__decay_rate(temperature) * self.__moisture_multiplier(moisture))
 
