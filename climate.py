@@ -22,7 +22,7 @@ class Climate:
         self.raindays_per_year = raindays_per_year
         # Dynamic values and their initial conditions
         self.current_moisture = self.moisture_base
-        self.current_temperature = (self.temperature_range[0] + self.temperature_range[1]) / 2
+        self.current_temperature = self.update_temperature(0)
 
     def __str__(self) -> str:
         """Returns a pretty-print string of the Climate data."""

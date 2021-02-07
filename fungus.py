@@ -182,7 +182,6 @@ class Fungus:
         """Returns the amount of substrate eaten after a turn"""
         return self.amount_eaten_today
 
-
     def turn(self, grid:Grid, climate:Climate) -> None:
         """Executes a turn on a Fungus"""
 
