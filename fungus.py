@@ -27,7 +27,6 @@ class Fungus:
         self.locations = self.__load_initial_locations(initial_locations)
         self.dead_locations =[]
         self.competitive_ranking = competitive_ranking
-        self.all_dead = False
         self.day = 0
         self.amount_eaten_today = 0
         
@@ -91,13 +90,13 @@ class Fungus:
 
     def __kill_all(self) -> None:
         """Kill every fungus location"""
-        self.all_dead = True
         for key in self.locations.keys():
-            self.dead_locations.append(key)
+            self.__kill(key)
         
 
     def climate_death(self, climate: Climate) -> bool:
         """Determines if the climate has killed the fungus"""
+        
         temperature = climate.get_climate_temperature()
         moisture = climate.get_climate_moisture()
 
@@ -126,12 +125,12 @@ class Fungus:
         for key in self.locations.keys():
             #can't operate on dead things
             if key in self.dead_locations:
-                if self.day % utilities.DAYS_UNTIL_EXPANSION == 0:
-                    if not self.climate_death(climate):
-                        if np.random.uniform() >= 0.5:
-                            resurrected.append(key)
-                            pass
-                continue
+                if self.climate_death(climate) == False:
+                    if (np.random.rand() >= 0.6):
+                        resurrected.append(key)
+                        pass
+                else:
+                    continue
             original_substrate = grid.get_original_biomass_at_location(key)
             current_substrate = grid.get_current_biomass_at_location(key)
 
@@ -178,16 +177,14 @@ class Fungus:
     
     def get_number_of_deaths(self) -> int:
         """Return the number of fungal cells that died"""
-        if self.all_dead:
-            return self.get_number_of_fungal_cells()
-        else:
-            return len(self.dead_locations)
+        return len(self.dead_locations)
 
     def get_total_amount_of_substrate_eaten(self) -> float:
         """Returns the total amount that the fungus has eaten"""
         amount = 0
         for key in self.locations:
             amount += self.locations[key]
+        return amount
     
     def get_amount_of_substrate_eaten_today(self) -> float:
         """Returns the amount of substrate eaten after a turn"""
@@ -202,16 +199,13 @@ class Fungus:
 
         self.day += 1
         self.amount_eaten_today = 0
-        #Are we already dead?
-        if self.all_dead:
-            return
         
         #check to see if the Fungus dies outright
         if self.climate_death(climate):
             self.__kill_all()
-        #If not, it gets to eat
-        else:
-            self.__consume_substrate(grid, climate)
+        
+        #Check if it gets to eat or resurrect
+        self.__consume_substrate(grid, climate)
 
 class Fungus1(Fungus):
     def __init__(self, initial_locations: list, 
