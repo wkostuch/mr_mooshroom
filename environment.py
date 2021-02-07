@@ -43,8 +43,11 @@ class Environment:
         self.grid = Grid(grid_size[0], grid_size[1], 
                         self.climate.get_climate_biomass_density(), 
                         sensitivity=0.15)
+        # Instantiate the Fungus objects
         self.fungus_list = [self.fungus_map.get(new_fungus)(self.grid.generate_random_locations(NUM_LOCATIONS)) 
                             for new_fungus in fungus_list]
+        # Sort the list by competitive ranking for turn priority
+        self.fungus_list.sort(key=lambda fungus: fungus.get_competitive_ranking(), reverse=True)
 
     def update(self, time: int):
         """Update's the Environment using time."""
