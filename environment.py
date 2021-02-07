@@ -1,10 +1,6 @@
 from typing import List, Tuple
 from grid import Grid
-<<<<<<< HEAD
-from fungus import Fungus, Fungus1, Fungus10, Fungus11, Fungus12, Fungus13, Fungus14, Fungus2, Fungus3, Fungus4, Fungus5, Fungus6, Fungus7, Fungus8, Fungus9 
-=======
-from fungus import Fungus, Fungus1 
->>>>>>> 40da77bdc84d72cbc9c99871b69040d94aac3821
+from fungus import * 
 from climate import Climate, Desert, Tundra, Shrubland, Grassland, \
     TemperateDeciduousForest, ConiferousForest, Rainforest
 
