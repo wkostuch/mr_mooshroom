@@ -10,7 +10,6 @@ class Fungus:
     def __init__(self, 
     name: str, 
     initial_locations: list,
-    substrate_threshold: float, 
     decay_regression_constants: tuple,
     functioning_temperatures: tuple,
     functioning_moistures: tuple,
@@ -18,7 +17,6 @@ class Fungus:
     hyphal_density: float ) -> None:
 
         self.name = name
-        self.substrate_threshold = substrate_threshold
         self.decay_regression_constants = decay_regression_constants
         self.functioning_temperatures = functioning_temperatures
         self.functioning_moistures = functioning_moistures
@@ -29,8 +27,6 @@ class Fungus:
         self.dead_locations =[]
         self.all_dead = False
         
-
-
 
     def __load_initial_locations(self, initial_locations: tuple) -> dict:
         """Loads the initial locations of the Fungus in the grid"""
@@ -136,9 +132,8 @@ class Fungus:
                 self.locations[key] = self.locations[key] + consumed_substrate
                 grid.set_current_biomass(key, new_substrate)
 
-                #If the expansion threshold has been reached, seek expansion
-                if  self.locations[key] >= self.substrate_threshold:
-                    self.__expand(grid, key)
+                #Always trying to expand
+                self.__expand(grid, key)
 
             #if there is not enough food, the fungus begins to die
             else:
@@ -157,10 +152,3 @@ class Fungus:
         #If not, it gets to eat
         else:
             self.__consume_substrate(grid, climate)
-            
-        
-        
-
-
-        
-        
