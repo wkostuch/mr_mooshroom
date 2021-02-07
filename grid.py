@@ -46,6 +46,8 @@ class Grid:
         """Returns the value in the Grid at the given x and y location."""
         if self.__is_valid_row(x) and self.__is_valid_col(y):
             return self.map_grid[x][y]
+        else:
+            print(f"Location ({x}, {y}) is not a valid location.")
         
     def get_value_tuple(self, location: tuple) -> tuple:
         """Returns the value in the Grid at location (x, y)."""
@@ -79,7 +81,7 @@ class Grid:
         locations = list()
         for i in range(location_num):
             rows, cols = self.grid_size()
-            locations.append((random.randint(0, rows), random.randint(0, cols)))
+            locations.append((random.randint(0, rows-1), random.randint(0, cols-1)))
         return locations
 
     # SETTER METHODS
