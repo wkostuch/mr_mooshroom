@@ -5,13 +5,16 @@ Authors: Therese Aglialoro, Cameron Nottingham, and William Kostuch
 import matplotlib.pyplot as plt 
 import numpy as np
 from typing import List
+import utilities
+
+from numpy.lib import utils
 
 from world import World
 
 
-CLIMATE_NAMES = ["Desert", "Tundra", "Grassland", "Shrubland",  
+CLIMATE_NAMES = ["Rainforest", "Tundra", "Grassland", "Shrubland",  
                 "TemperateDeciduousForest", "ConiferousForest",
-                "Rainforest"]
+                "Desert"]
 
 FUNGUS_NAMES = ["Phellinus robiniae",
                     "Phellinus hartigii",
@@ -182,11 +185,52 @@ def food_eaten_by_day_per_fungi_vs_moisture(climate: str, fungi: List[str],
     plt.tight_layout()
     plt.show()
 
-
+def total_food_eaten_over_time(climates: List[str], fungi: List[str], 
+                        trials: int, time_limit: int):
+    """Shows a graph of average food eaten by fungi over time for each climate after running the trials."""
+    array_length = time_limit
+    fig, ((ax1, ax2) , (ax3, ax4), (ax5,ax6)) = plt.subplots(3,2)
+    axes = [ax1,ax2,ax3,ax4,ax5,ax6]
+    num = 0
+    for climate in climates:
+        # Arrays for graphing
+        average_times = np.zeros(array_length)
+        average_biomass_eaten = np.zeros(array_length)
+        for n in range(trials):
+            # Arrays for holding the values
+            times = np.zeros(array_length)
+            biomasses = np.zeros(array_length)
+            # Make a World and run it for a time
+            world = World(climate, (100,100), fungi)
+            # Loop through stuff
+            for i in range(time_limit):
+                time = world.get_time() 
+                times[time] = time
+                total_food_eaten = 0
+                for fungus in world.get_environment().get_fungi_list():
+                    total_food_eaten += fungus.get_total_amount_of_substrate_eaten()
+                biomasses[time] = total_food_eaten 
+                world.increment_time()
+            # Add arrays to average arrays
+            average_times += times
+            average_biomass_eaten += biomasses
+        # Average and plot
+        average_times /= trials
+        average_biomass_eaten /= trials
+        axes[num].plot(average_times, 
+                average_biomass_eaten, 
+                label=climate)
+        num +=1
+    #plt.title(f"Total biomass decomposed by fungi vs. Time for different climates \n(trials per climate: {trials}, number of fungi: {len(fungi)}")
+    #plt.legend()
+    #plt.xlabel("Time (days)")
+    #plt.ylabel("Biomass decomposed")
+    plt.show()
 
 if __name__ == "__main__":
     #temperature_over_time(["Rainforest", "Tundra"], FUNGUS_NAMES[0:5], trials=1, time_limit=365*YEARS)
     #biomass_over_time(CLIMATE_NAMES, FUNGUS_NAMES, trials=5, time_limit=365*YEARS)
-    food_eaten_by_day_per_fungi_vs_moisture("Rainforest", FUNGUS_NAMES[0:15], trials = 1, time_limit=365)
+    #food_eaten_by_day_per_fungi_vs_moisture("Rainforest", FUNGUS_NAMES[0:15], trials = 1, time_limit=365)
+    total_food_eaten_over_time(CLIMATE_NAMES[0:6], ["Phellinus hartigii"], trials=5, time_limit=365)
 
 
