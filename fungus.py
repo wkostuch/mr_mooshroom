@@ -57,7 +57,7 @@ class Fungus:
 
     def __moisture_multiplier(self, moisture: float) -> float:
         """Returns a weighted multiplier based on the moisture"""
-        optimal_moisture,_,_= self.functioning_moistures
+        optimal_moisture,_= self.functioning_moistures
 
         return abs((moisture - abs(optimal_moisture - moisture)) / optimal_moisture)
 
@@ -80,8 +80,10 @@ class Fungus:
             eligible_neighbors = [x for x in neighbors if x not in self.locations]
 
             #from the eligible neighbors, select one at random
-            expansion = random.choice(eligible_neighbors)
-
+            if len(eligible_neighbors) != 0:
+                expansion = random.choice(eligible_neighbors)
+            else:
+                return
             #Add the expanded location to the list 
             return expansion
 
@@ -135,17 +137,19 @@ class Fungus:
                 grid.set_current_biomass(key, new_substrate)
 
                 #Always trying to expand
-                expansions.add(self.__expand(grid, key))
+                expansion = self.__expand(grid, key)
+                if expansion != None:
+                    expansions.append(self.__expand(grid, key))
 
             #if there is not enough food, the fungus begins to die
             else:
-                killed.add(key)
+                killed.append(key)
 
-            for location in expansions:
-                self.__add_location(location)
+        for location in expansions:
+            self.__add_location(location)
 
-            for died in killed:
-                self.__kill(died)
+        for died in killed:
+            self.__kill(died)
 
     def turn(self, grid:Grid, climate:Climate) -> None:
         """Executes a turn on a Fungus"""
