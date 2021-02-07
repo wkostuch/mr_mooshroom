@@ -27,18 +27,16 @@ FUNGUS_NAMES = ["Phellinus robiniae",
                     "Lentinus crinitus",
                     "Fomes fomentarius",
                     "Xylobolus subpileatus"]
+COLLECTION_INTERVAL = 10
 
 def biomass_over_time(climates: List[str], fungi: List[str], 
                         trials: int, time_limit: int, data_interval: int):
     """Shows a graph of average biomass over time for each climate after running the trials."""
     for climate in climates:
         # Arrays for graphing
-        average_times = np.zeros(time_limit//data_interval)
-        average_biomass = np.zeros(time_limit//data_interval)
+        average_times = np.zeros(time_limit)
+        average_biomass = np.zeros(time_limit)
         for n in range(trials):
-            # Skip if we're not at the collection interval
-            if n % data_interval is not 0:
-                continue
             # Arrays for holding the values
             times = np.zeros(time_limit)
             biomasses = np.zeros(time_limit)
@@ -68,12 +66,9 @@ def temperature_over_time(climates: List[str], fungi: List[str],
     """Shows a graph of average temperature over time for each climate after running the trials."""
     for climate in climates:
         # Arrays for graphing
-        average_times = np.zeros(time_limit//data_interval)
-        average_temps = np.zeros(time_limit//data_interval)
+        average_times = np.zeros(time_limit)
+        average_temps = np.zeros(time_limit)
         for n in range(trials):
-            # Skip if we're not at the collection interval
-            if n % data_interval is not 0:
-                continue
             # Arrays for holding the values
             times = np.zeros(time_limit)
             temps = np.zeros(time_limit)
@@ -102,8 +97,8 @@ def temperature_over_time(climates: List[str], fungi: List[str],
 
 if __name__ == "__main__":
     worlds = []
-    #temperature_over_time(CLIMATE_NAMES, [], 5, 10)
-    biomass_over_time(CLIMATE_NAMES, [], 5, 365)
+    temperature_over_time(CLIMATE_NAMES, [], 5, time_limit=365, data_interval=10)
+    #biomass_over_time(CLIMATE_NAMES, [], 5, time_limit=50, data_interval=10)
 
 
         
