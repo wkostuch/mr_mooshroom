@@ -270,7 +270,19 @@ def decomposition_with_respect_to_biodiversity(climate: str, fungi: List[str],
     plt.tight_layout()
     plt.show()
 
-
+def fungal_bracket(climate: str, fungi: List[str], 
+                    time_limit: int) -> str:
+    """Function for running the fungal activity bracket."""
+    # Make a world and run it
+    world = World(climate, (100, 100), fungi)
+    for i in range(time_limit):
+        world.increment_time()
+    fungus_one, fungus_two = world.get_environment().get_fungi_list()
+    # Decide the winner based on total food eaten
+    if fungus_one.get_total_amount_of_substrate_eaten() >= fungus_two.get_amount_of_substrate_eaten_today():
+        return fungus_one.name
+    else:
+        return fungus_two.name
 
 
 
@@ -293,4 +305,5 @@ if __name__ == "__main__":
     #temperature_over_time(CLIMATE_NAMES, [], trials=3, time_limit=365)
 
     
-
+    # BRACKET
+    print(fungal_bracket('Rainforest', FUNGUS_NAMES[0:2], 365))
