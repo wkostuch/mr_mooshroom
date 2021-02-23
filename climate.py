@@ -81,7 +81,6 @@ class Climate:
     def get_inbound_biomass(self, time: int) -> float:
         """Returns the amount of biomass that enters the Climate at 
             a specific time."""
-#TODO: Check this value for calibration purposes once it's up and running
         return (self.biomass_density + self.biomass_density*0.2*math.sin((2*math.pi*time) / 365)) * BIOMASS_WEIGHT
 
     # Function that Environment calls each day
