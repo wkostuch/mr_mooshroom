@@ -124,7 +124,6 @@ class Grid:
                 self.map_grid[r][c] = [self.map_grid[r][c][0], 
                                         self.map_grid[r][c][1] + val]
 
-
     # REDUCING METHODS
     def reduce_value_at_location(self, location: tuple, val: float):
         """Reduces the number at (x, y) location by val."""
