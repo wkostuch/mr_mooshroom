@@ -5,9 +5,6 @@ from environment import Environment
 class World:
     """World class that handles running the Environment."""
 
-    #TODO
-    # - Methods for asking each part of the model for useful data
-
     def __init__(self, 
             climate_type: str,
             grid_size: Tuple[int, int],
@@ -21,9 +18,6 @@ class World:
         """Moves the World's time forward by one day."""
         self.time += 1
         self.environment.update(self.time)
-
-
-    # GETTERS
 
     # World GETTERS
     def get_time(self) -> int:
