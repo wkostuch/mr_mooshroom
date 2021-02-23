@@ -24,8 +24,6 @@ probability_thresholds = {  "Phlebia rufa"              : 0.80,
                             "Armillaria tabescens"      : 0.2462,
                             "Xylobolus subpileatus"     : 0.20}
 
-
-
 def rainfall_inches_to_mPa(rain: float) -> float:
     """Converts inches of rain to mPa."""
     return rain*2.54*WATER_DENSITY*G*1e-8
