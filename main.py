@@ -106,6 +106,55 @@ def biomass_over_time(climates: List[str], fungi: List[str],
     plt.ylabel("Biomass")
     plt.show()
 
+def double_sided_plot(climate: str, fungi: List[str],
+                        trials: int, time_limit: int):
+    """Plots moisture vs time and biomass eaten per day vs time."""
+    array_length = time_limit 
+    fig, ax1 = plt.subplots()
+    # Arrays for graphing
+    average_times = np.arange(start=0, stop=time_limit, step=1)
+    average_biomass_per_day = np.zeros(array_length)
+    average_moisture_per_day = np.zeros(array_length)
+    for n in range(trials):
+        # Arrays for holding the values
+        biomasses = np.zeros(array_length)
+        moistures = np.zeros(array_length)
+        # Make a World and run it for a time
+        world = World(climate, (100,100), fungi)
+        # Loop through stuff
+        for i in range(time_limit):
+            time = world.get_time() 
+            #times[time] = time
+            munched_biomass = 0
+            for fungal_fun in world.get_environment().get_fungi_list():
+                munched_biomass = fungal_fun.amount_eaten_today
+            biomasses[time] = munched_biomass
+            moistures[time] = world.get_environment().get_climate().get_climate_moisture()
+            world.increment_time()
+        # Add arrays to average arrays
+        average_biomass_per_day += biomasses
+        average_moisture_per_day += moistures
+        # Average and plot
+        average_biomass_per_day /= trials
+        average_moisture_per_day /= trials
+    # Plot it!
+    color = 'tab:blue'
+    ax1.set_xlabel('Time (days)')
+    ax1.set_ylabel('Average moisture (MPa)', color=color)
+    ax1.plot(average_times, average_moisture_per_day, color=color)
+    ax1.tick_params(axis='y', labelcolor=color)
+    # Now plot the other one!
+    ax2 = ax1.twinx()
+    color = 'tab:green'
+    ax2.set_ylabel('Biomass decayed', color=color)  # we already handled the x-label with ax1
+    ax2.plot(average_times, average_biomass_per_day, color=color)
+    ax2.tick_params(axis='y', labelcolor=color)
+    # Final plot
+    fig.tight_layout()
+    plt.show()
+
+
+
 def temperature_over_time(climates: List[str], fungi: List[str], 
                         trials: int, time_limit: int):
     """Shows a graph of average temperature over time for each climate after running the trials."""
@@ -178,7 +227,7 @@ def food_eaten_by_day_per_fungi_vs_moisture(climate: str, fungi: List[str],
     for index,fungi_data in enumerate(list_of_fungi):
         fungi_food_data = fungi_data[0] / trials
         fungi_name = fungi_data[1]
-        plt.plot(fungi_food_data, average_moisture, label=f"{fungi_name}")
+        plt.plot(fungi_food_data, average_moisture, '.', label=f"{fungi_name}")
     plt.title("Moisture level vs. biomass consumed in one day for different fungi")
     plt.legend()
     plt.xlabel("Biomass consumed")
@@ -294,16 +343,17 @@ if __name__ == "__main__":
 
     # RUNNING:
     #TODO: Run these with varying temperature and rainfall
-    #number_fungi_over_time_per_climate(CLIMATE_NAMES, FUNGUS_NAMES, trials = 3, time_limit=365*3)
-    #decomposition_with_respect_to_biodiversity("Rainforest", FUNGUS_NAMES, trials = 1, time_limit=365*3)
-    #total_food_eaten_over_time(CLIMATE_NAMES, FUNGUS_NAMES, trials=3, time_limit=365*3)
+    #number_fungi_over_time_per_climate(CLIMATE_NAMES, FUNGUS_NAMES, trials = 3, time_limit=365*1)
+    #decomposition_with_respect_to_biodiversity("Rainforest", FUNGUS_NAMES, trials = 1, time_limit=365*1)
+    #total_food_eaten_over_time(CLIMATE_NAMES, FUNGUS_NAMES, trials=3, time_limit=365*1)
 
 
     # OTHER:
     #biomass_over_time(CLIMATE_NAMES, FUNGUS_NAMES, trials=5, time_limit=365*YEARS)
-    #food_eaten_by_day_per_fungi_vs_moisture("Rainforest", FUNGUS_NAMES[0:15], trials = 1, time_limit=365)
+    #food_eaten_by_day_per_fungi_vs_moisture("Rainforest", FUNGUS_NAMES[0:15], trials = 10, time_limit=365)
     #temperature_over_time(CLIMATE_NAMES, [], trials=3, time_limit=365)
+    double_sided_plot("Grassland", FUNGUS_NAMES, trials=3, time_limit=365)
 
     
     # BRACKET
-    print(fungal_bracket('Rainforest', FUNGUS_NAMES[0:2], 365))
+    #print(fungal_bracket('Rainforest', ["Xylobolus subpileatus", "Phellinus gilvus"], 365))
