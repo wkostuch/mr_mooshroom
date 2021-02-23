@@ -17,18 +17,22 @@ class Fungus:
     hyphal_density: float,
     competitive_ranking: float) -> None:
 
+        #initialize values from constructor
         self.name = name
         self.decay_regression_constants = decay_regression_constants
         self.functioning_temperatures = functioning_temperatures
         self.functioning_moistures = functioning_moistures
         self.hyphal_growth_rate = hyphal_growth_rate
         self.hyphal_density = hyphal_density
+        self.competitive_ranking = competitive_ranking
 
         self.locations = self.__load_initial_locations(initial_locations)
+
+        
         self.dead_locations =[]
-        self.competitive_ranking = competitive_ranking
         self.day = 0
         self.amount_eaten_today = 0
+        self.max_consumed = 0
         
 
     def __load_initial_locations(self, initial_locations: tuple) -> dict:
@@ -68,7 +72,7 @@ class Fungus:
         """Determines whether the fungus actually expands"""
 
         #The probability of expansion is based on a weighted random factor based on the hyphal growth rate
-        probability = np.random.rand() 
+        probability = np.random.rand()
         if probability < utilities.probability_thresholds[self.name]:
             return True
         else:
@@ -125,6 +129,7 @@ class Fungus:
         for key in self.locations.keys():
             #can't operate on dead things
             if key in self.dead_locations:
+                #If the climate improves, see if any cells can be resurrected
                 if self.climate_death(climate) == False:
                     if (np.random.rand() >= 0.6):
                         resurrected.append(key)
@@ -140,7 +145,10 @@ class Fungus:
             if consumed_substrate < current_substrate:
                 self.amount_eaten_today += consumed_substrate
                 new_substrate = current_substrate - consumed_substrate
+                
                 self.locations[key] = self.locations[key] + consumed_substrate
+                if self.locations[key] > self.max_consumed:
+                    self.max_consumed = self.locations[key]
                 grid.set_current_biomass(key, new_substrate)
 
                 #Always trying to expand
@@ -194,6 +202,10 @@ class Fungus:
         """Returns the Fungus' competitive ranking."""
         return self.competitive_ranking
 
+    def get_max_consumed(self) -> float:
+        """returns the maximum amount of food consumed"""
+        return self.max_consumed
+
     def turn(self, grid:Grid, climate:Climate) -> None:
         """Executes a turn on a Fungus"""
 
@@ -207,6 +219,8 @@ class Fungus:
         #Check if it gets to eat or resurrect
         self.__consume_substrate(grid, climate)
 
+
+#Fungi implementation classes 
 class Fungus1(Fungus):
     def __init__(self, initial_locations: list, 
                 name = "Phellinus robiniae", 
