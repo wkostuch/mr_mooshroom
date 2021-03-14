@@ -310,8 +310,10 @@ def generate_fungal_heat_map(climate: str, fungi: List[str], time_limit: int, ax
 
 def fungal_heat_map(climate: str, fungi: List[str], time_limit: int)->None:
     """Generates a fungal hear map for one cliamte"""
+    if fungi == None:
+        fungi = FUNGUS_NAMES[0:10]
     fig, axis = plt.subplots(figsize=(9,5))
-    custom_lines = generate_fungal_heat_map(climate,FUNGUS_NAMES[0:10], time_limit=time_limit, axis=axis)
+    custom_lines = generate_fungal_heat_map(climate,fungi, time_limit=time_limit, axis=axis)
     axis.set_xlim([0,100])
     axis.set_ylim([0,100])
     axis.axis("square")
@@ -336,3 +338,45 @@ def fungal_heat_map_all_climates(time_limit: int, file_name: str) -> None:
     ax8.legend(handles = custom_lines)
     plt.savefig(file_name, dpi= 150)
     plt.show()
+
+def generate_fungal_heat_map_times(climate: str, fungi: List[str], time_limit: int, file_path:str) -> list:
+    """Function for generating a fungal heat map across a time specified"""
+    # Make a world and run it
+    if fungi == None:
+        fungi = FUNGUS_NAMES[0:10]
+    fig, axis = plt.subplots()
+    world = World(climate, (100, 100), fungi)
+    locations = []
+    for fungus in world.get_environment().get_fungi_list():
+        locations.append([])
+    for i in range(time_limit):
+        world.increment_time()
+        fungus_list = world.get_environment().get_fungi_list()
+        for count, fungus in enumerate(fungus_list):
+            locations[count].append(fungus.locations.copy())
+
+    
+    tab_colors = list(mcolors.TABLEAU_COLORS.keys())
+    fungus_list = world.get_environment().get_fungi_list()
+    for i in range(time_limit):
+        index =0 
+        for count, fungus in enumerate(fungus_list):
+            max_consumed = fungus.get_max_consumed()
+            for location in locations[count][i]:
+                if max_consumed > 0:
+                    alpha_value = locations[count][i][location] / max_consumed
+                else:
+                    alpha_value = 0
+                rectangle = plt.Rectangle(location, 1, 1, fc=mcolors.to_rgba(tab_colors[index], alpha=alpha_value))
+                axis.add_patch(rectangle)
+            index +=1
+    
+        axis.set_xlim([0,100])
+        axis.set_ylim([0,100])
+        axis.axis("equal")
+        plt.xticks([])
+        plt.yticks([])
+
+        axis.set_xlabel(world.get_environment().get_climate().climate_type)
+        axis.set_xlabel(climate)
+        plt.savefig(f"{file_path}{i}.png", dpi= 150)
